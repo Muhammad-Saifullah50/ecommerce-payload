@@ -44,13 +44,13 @@ const BannerCarousel = ({ banners }: BannerCarouselProps) => {
             <Carousel setApi={setApi} className="w-full relative">
                 <CarouselContent>
                     {banners.map((banner) => {
-
+console.log(banner, 'banner')
                         const lastTwoWords = banner.title.split(' ').slice(-2).join(' ');
                         const firstWords = banner.title.split(' ').slice(0, -2).join(' ');
                         return (
                             <CarouselItem key={banner.id} className="">
                                 <Image
-                                    src={(banner?.image as Media)?.url!}
+                                    src={(banner?.image as Media)?.url! || null}
                                     width={500}
                                     height={280}
                                     alt={banner.title}
