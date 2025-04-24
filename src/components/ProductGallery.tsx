@@ -51,7 +51,7 @@ const ProductGallery = ({ images }: { images: (Media | string)[] }) => {
                                 src={(image as Media).url!}
                                 width={345}
                                 height={345}
-                                alt={(image as Media).alt!}
+                                alt={(image as Media).alt || ''}
                                 className="object-contain w-[345px] h-[345px]"
                             />
                         </CarouselItem>
@@ -76,7 +76,7 @@ const ProductGallery = ({ images }: { images: (Media | string)[] }) => {
                                 src={(image as Media).url!}
                                 width={80}
                                 height={80}
-                                alt={(image as Media).alt!}
+                                alt={(image as Media).alt || ''}
                             />
                         </CarouselItem>
                     ))}
