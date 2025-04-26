@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import SearchBox from './SearchBox'
+import Link from 'next/link'
 
 const Navbar = () => {
   return (
@@ -20,10 +21,10 @@ const Navbar = () => {
             <Image src={'/heart.svg'} width={20} height={20} alt="profile" />
             <p className="text-xs text-gray-primary">Orders</p>
           </div>
-          <div className="flex flex-col gap-1 items-center">
+          <Link href={'/cart'} className="flex flex-col gap-1 items-center">
             <Image src={'/cart.svg'} width={20} height={20} alt="profile" />
             <p className="text-xs text-gray-primary">My cart</p>
-          </div>
+          </Link>
         </div>
       </nav>
     </>

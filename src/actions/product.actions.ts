@@ -12,7 +12,8 @@ export const getAllProductSlugs = async () => {
         slug: true,
       },
     })
-    return slugs.docs
+    const slugArr = slugs.docs.map((slugObj) => slugObj.slug)
+    return slugArr
     
   } catch (error: any) {
     console.error('Error getting product slugs')

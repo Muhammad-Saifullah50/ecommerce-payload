@@ -1,4 +1,3 @@
-'use client'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -10,11 +9,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
-import CartItem from './CartItem'
-import { useCart } from '@/context/CartContext'
+import CartList from './CartList'
 
 const CartSheet = ({ children }: { children: React.ReactNode }) => {
-  const { items } = useCart()
 
   return (
     <Sheet>
@@ -23,11 +20,7 @@ const CartSheet = ({ children }: { children: React.ReactNode }) => {
         <SheetHeader>
           <SheetTitle>Your cart</SheetTitle>
         </SheetHeader>
-        <div className="flex flex-col gap-2 w-full pt-4">
-          {items.map((item) => (
-            <CartItem key={item.id} item={item}/>
-          ))}
-        </div>
+        <CartList />
         <SheetFooter>
           <SheetClose asChild>
             <Button type="submit">Save changes</Button>
