@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from '@/components/ui/button'
 import {
   Sheet,
@@ -9,18 +11,22 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet'
 import CartItem from './CartItem'
+import { useCart } from '@/context/CartContext'
 
+const CartSheet = ({ children }: { children: React.ReactNode }) => {
+  const { items } = useCart()
 
-const CartSheet = async () => {
   return (
-    <Sheet open >
-      <SheetTrigger asChild>{/* <Button variant="outline">Open</Button> */}</SheetTrigger>
+    <Sheet>
+      <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent className="!min-w-[500px]">
         <SheetHeader>
           <SheetTitle>Your cart</SheetTitle>
         </SheetHeader>
         <div className="flex flex-col gap-2 w-full pt-4">
-        <CartItem/>
+          {items.map((item) => (
+            <CartItem key={item.id} item={item}/>
+          ))}
         </div>
         <SheetFooter>
           <SheetClose asChild>

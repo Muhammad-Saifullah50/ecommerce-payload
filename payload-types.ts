@@ -190,7 +190,7 @@ export interface Product {
   title: string;
   slug: string;
   price: string;
-  'short description': string;
+  short_description: string;
   description: {
     root: {
       type: string;
@@ -208,7 +208,7 @@ export interface Product {
   };
   category?: (string | null) | Category;
   subcategory?: (string | null) | Subcategory;
-  images?: (string | Media)[] | null;
+  images: (string | Media)[];
   inStock: boolean;
   updatedAt: string;
   createdAt: string;
@@ -367,7 +367,7 @@ export interface ProductsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   price?: T;
-  'short description'?: T;
+  short_description?: T;
   description?: T;
   category?: T;
   subcategory?: T;

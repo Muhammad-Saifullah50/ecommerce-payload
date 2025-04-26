@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import SearchBox from './SearchBox'
-import CartSheet from './CartSheet'
 
 const Navbar = () => {
   return (
@@ -27,7 +26,6 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-      <CartSheet />
     </>
   )
 }

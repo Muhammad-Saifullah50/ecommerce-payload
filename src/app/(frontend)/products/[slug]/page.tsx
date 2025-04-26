@@ -8,6 +8,16 @@ import ProductDetails from '@/components/ProductDetails'
 import ProductDescriptionTabs from '@/components/ProductDescriptionTabs'
 import MayLikeProducts from '@/components/MayLikeProducts'
 import RelatedProducts from '@/components/RelatedProducts'
+import { getAllProductSlugs } from '@/actions/product.actions'
+
+export const generateStaticParams = async () => {
+    const productSlugs = await getAllProductSlugs()
+
+    return productSlugs?.map(obj => ({
+        slug: obj.slug,
+    }))
+};
+
 
 const IndividualProductPage = async ({ params }: { params: { slug: string } }) => {
 

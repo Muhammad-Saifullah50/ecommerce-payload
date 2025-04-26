@@ -5,8 +5,8 @@ import { createContext, useContext, useEffect, useState } from 'react'
 export type CartItem = {
   id: string
   title: string
-  shortdescription: string
-  price: number
+  short_description: string
+  price: string
   quantity: number
   image: string
 }
@@ -57,6 +57,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       prev.map((item) => (item.id === itemId ? { ...item, quantity: newQuantity } : item)),
     )
   }
+
 
   const clearCart = () => setItems([])
 

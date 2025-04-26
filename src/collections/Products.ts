@@ -40,7 +40,7 @@ export const Products: CollectionConfig = {
             required: true
         },
         {
-            name: 'short description',
+            name: 'short_description',
             type: 'text',
             required: true
         },
@@ -64,6 +64,7 @@ export const Products: CollectionConfig = {
             type: 'upload',
             relationTo: 'media',
             hasMany: true,
+            required: true
             
         },
         {
