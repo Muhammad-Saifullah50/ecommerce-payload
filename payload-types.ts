@@ -189,7 +189,8 @@ export interface Product {
   id: string;
   title: string;
   slug: string;
-  price: string;
+  price: number;
+  discount_percentage: number;
   short_description: string;
   description: {
     root: {
@@ -367,6 +368,7 @@ export interface ProductsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   price?: T;
+  discount_percentage?: T;
   short_description?: T;
   description?: T;
   category?: T;

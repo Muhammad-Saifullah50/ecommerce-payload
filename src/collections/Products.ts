@@ -36,7 +36,12 @@ export const Products: CollectionConfig = {
         },
         {
             name: 'price',
-            type: 'text',
+            type: 'number',
+            required: true
+        },
+        {
+            name: 'discount_percentage',
+            type: 'number',
             required: true
         },
         {

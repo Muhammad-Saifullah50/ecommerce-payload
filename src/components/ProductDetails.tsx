@@ -43,7 +43,11 @@ const ProductDetails = ({ product }: { product: Product }) => {
           <p className="text-gray-primary text-base">Price:</p>
           <p className="flex w-1/2 text-left justify-start text-gray-600">PKR {product.price}</p>
         </div>
-        <hr />
+        <div className="flex justify-between w-full ">
+          <p className="text-gray-primary text-base">Discount:</p>
+          <p className="flex w-1/2 text-left justify-start text-gray-600"> {product.discount_percentage} %</p>
+        </div>
+          <hr />
         <div className="flex justify-between w-full">
           <p className="text-gray-primary text-base">Category:</p>
           <p className="flex w-1/2 text-left justify-start text-gray-600">

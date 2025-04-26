@@ -14,7 +14,8 @@ const AddToCart = ({product}: {product: Product & {quantity: number}}) => {
         short_description: product.short_description,
         price: product.price,
         quantity: product.quantity,
-        image: (product?.images[0] as Media).url
+        image: (product?.images[0] as Media).url,
+        discount_percentage: product.discount_percentage
         // have to proviude with dummy imaghe
     }
   return (
