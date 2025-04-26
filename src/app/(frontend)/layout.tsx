@@ -35,12 +35,12 @@ export default function RootLayout({
           <CartProvider>{children}</CartProvider>
         </main>
 
-        <section className="bg-white">
-          <div className="max-w-7xl mx-auto">
+        <section className="bg-white absolute bottom-[90px] w-full">
+          <div className="max-w-7xl mx-auto ">
             <Footer />
           </div>
         </section>
-        <section className="bg-gray-secondary">
+        <section className="bg-gray-secondary absolute bottom-0 w-full">
           <div className="max-w-7xl mx-auto">
             <LowerFooter />
           </div>

@@ -23,9 +23,9 @@ const CartItem = ({ item }: { item: CartItemType }) => {
           <Button size={'sm'} variant={'outline'} className='text-destructive hover:text-destructive'>
             Remove
           </Button>
-          <Button size={'sm'} variant={'outline'} className="text-blue-primary hover:text-blue-primary">
+          {/* <Button size={'sm'} variant={'outline'} className="text-blue-primary hover:text-blue-primary">
             Add to wishlist
-          </Button>
+          </Button> */}
         </div>
       </div>
 

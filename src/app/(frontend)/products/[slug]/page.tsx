@@ -10,7 +10,9 @@ import MayLikeProducts from '@/components/MayLikeProducts'
 import RelatedProducts from '@/components/RelatedProducts'
 import { getAllProductSlugs } from '@/actions/product.actions'
 
+
 // havbe to also ssee the solution to statically generate when new products arrive
+export const revalidate = 60
 
 export const generateStaticParams = async () => {
   try {
