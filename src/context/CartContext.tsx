@@ -18,6 +18,7 @@ type CartContextType = {
   removeItem: (productId: string) => void
   updateQuantity: (productId: string, quantity: number) => void
   clearCart: () => void
+  finalPriceAfterDiscount: () => number
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined)
@@ -59,6 +60,12 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     )
   }
 
+  const finalPriceAfterDiscount = (): number => {
+    return items.reduce((acc, item) => {
+      const discountedPrice = item.price * (1 - item.discount_percentage / 100);
+      return acc + discountedPrice * item.quantity;
+    }, 0);
+  }
 
   const clearCart = () => setItems([])
 
@@ -70,6 +77,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         removeItem,
         updateQuantity,
         clearCart,
+        finalPriceAfterDiscount,
       }}
     >
       {children}

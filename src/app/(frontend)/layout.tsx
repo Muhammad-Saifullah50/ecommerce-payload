@@ -6,6 +6,7 @@ import Footer from '@/components/Footer'
 import LowerFooter from '@/components/LowerFooter'
 import './globals.css'
 import { CartProvider } from '@/context/CartContext'
+import { Toaster } from '@/components/ui/toaster'
 
 const inter = Inter({
   variable: '--font-geist-sans',
@@ -32,7 +33,11 @@ export default function RootLayout({
           </div>
         </section>
         <main className="max-w-7xl mx-auto px-6 ">
-          <CartProvider>{children}</CartProvider>
+          <CartProvider>
+            {children}
+            <Toaster />
+
+            </CartProvider>
         </main>
 
         <section className="bg-white  w-full">

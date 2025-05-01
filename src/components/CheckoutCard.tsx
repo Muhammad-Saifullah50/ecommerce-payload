@@ -2,9 +2,14 @@
 
 import { useCart } from '@/context/CartContext'
 import { Button } from './ui/button'
+import { usePathname, useRouter } from 'next/navigation'
 
 const CheckoutCard = () => {
-  const { items } = useCart()
+  const { items, finalPriceAfterDiscount } = useCart()
+  const router = useRouter()
+  const pathname = usePathname()
+
+  const isCheckoutPage = pathname === '/checkout'
 
   const subTotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0)
 
@@ -22,8 +27,9 @@ const CheckoutCard = () => {
   )
 
   const totalDiscount = subTotal - afterDiscountPrice
+
   return (
-    <section className="flex flex-col w-1/4 bg-white rounded-lg border p-4 gap-4 h-fit mt-16">
+    <section className="flex flex-col w-full bg-white rounded-lg border p-4 gap-4 h-fit">
       <div className="flex justify-between  w-full">
         <p className=" text-base text-green-500">Subtotal:</p>
         <p className="flex w-1/2  justify-end text-green-500">PKR {subTotal}</p>
@@ -35,12 +41,20 @@ const CheckoutCard = () => {
       <hr />
       <div className="flex justify-between w-full">
         <p className=" text-xl font-semibold">Total:</p>
-        <p className="flex w-1/2  justify-end text-xl font-semibold">PKR {afterDiscountPrice}</p>
+        <p className="flex w-1/2  justify-end text-xl font-semibold">
+          PKR {finalPriceAfterDiscount()}
+        </p>
       </div>
 
-      <Button size={'lg'} className="bg-green-600 hover:bg-green-700">
-        Checkout
-      </Button>
+      {!isCheckoutPage && (
+        <Button
+          size={'lg'}
+          className="bg-green-600 hover:bg-green-700"
+          onClick={() => router.push('/checkout')}
+        >
+          Checkout
+        </Button>
+      )}
     </section>
   )
 }

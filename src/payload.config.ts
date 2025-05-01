@@ -3,14 +3,20 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { buildConfig } from 'payload'
 import { Banners } from './collections/Banners'
-import { Media } from './collections/Media'
 import { Categories } from './collections/Categories'
+import { Media } from './collections/Media'
+import { Orders } from './collections/Orders'
 import { Subcategories } from './collections/Subcategories'
 import { Products } from './collections/Products'
 import { uploadthingStorage } from '@payloadcms/storage-uploadthing'
 
+import oneLinkEndpoints  from '@/payments/1link/payloadIntegration';
+
+
 export default buildConfig({
-  
+  endpoints: [
+    ...oneLinkEndpoints,
+  ],
   // If you'd like to use Rich Text, pass your editor here
   editor: lexicalEditor({}),
   plugins: [
@@ -24,7 +30,7 @@ export default buildConfig({
     }),
   ],
   // Define and configure your collections in this array
-  collections: [Media, Banners, Categories, Subcategories, Products],
+  collections: [Media, Banners, Categories, Subcategories, Products, Orders],
 
   // Your Payload secret - should be a complex and secure string, unguessable
   secret: process.env.PAYLOAD_SECRET || '',
