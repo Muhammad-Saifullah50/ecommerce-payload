@@ -7,13 +7,13 @@ import { CartItem as CartItemType, useCart } from '@/context/CartContext'
 import Counter from './Counter'
 
 const CartItem = ({ item }: { item: CartItemType }) => {
-  console.log(item)
   const [quantity, setQuantity] = useState(item.quantity)
 
   const { removeItem } = useCart()
   console.log(item.price, item.discount_percentage)
   const discountedPrice = item.price - (item.price * item.discount_percentage) / 100
-  // console.log(discountedPrice, 'asdsdasdadad')
+
+  
   return (
     <div className={'flex gap-2 border rounded-lg cursor-pointer p-2 justify-between bg-white'}>
       <div className="flex border rounded-lg w-1/4 items-center justify-center">

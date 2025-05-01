@@ -26,11 +26,11 @@ const CheckoutCard = () => {
     <section className="flex flex-col w-1/4 bg-white rounded-lg border p-4 gap-4 h-fit mt-16">
       <div className="flex justify-between  w-full">
         <p className=" text-base text-green-500">Subtotal:</p>
-        <p className="flex w-1/2  justify-end text-green-500"> {subTotal}</p>
+        <p className="flex w-1/2  justify-end text-green-500">PKR {subTotal}</p>
       </div>
       <div className="flex justify-between w-full">
         <p className=" text-base text-red-500">Discount:</p>
-        <p className="flex w-1/2  justify-end text-red-500">{totalDiscount}</p>
+        <p className="flex w-1/2  justify-end text-red-500">PKR {totalDiscount}</p>
       </div>
       <hr />
       <div className="flex justify-between w-full">
