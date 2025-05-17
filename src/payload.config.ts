@@ -9,26 +9,61 @@ import { Orders } from './collections/Orders'
 import { Subcategories } from './collections/Subcategories'
 import { Products } from './collections/Products'
 import { uploadthingStorage } from '@payloadcms/storage-uploadthing'
-
-import oneLinkEndpoints  from '@/payments/1link/payloadIntegration';
-
+import { searchPlugin } from '@payloadcms/plugin-search'
+import { extractPlainText } from './lib/extract'
 
 export default buildConfig({
-  endpoints: [
-    ...oneLinkEndpoints,
-  ],
   // If you'd like to use Rich Text, pass your editor here
   editor: lexicalEditor({}),
   plugins: [
     uploadthingStorage({
       collections: {
-        media: true,    
-        },
+        media: true,
+      },
       options: {
         token: process.env.UPLOADTHING_TOKEN,
       },
     }),
+    searchPlugin({
+
+      collections: ['products'],
+    
+      searchOverrides: {
+        fields: ({ defaultFields }) => [
+          ...defaultFields,
+          {
+            name: 'description',
+            type: 'textarea',
+            label: 'Description',
+            admin: {
+              readOnly: true,
+            },
+          },
+        ],
+    
+        // Map content from your original documents into the shape expected in the search index
+        beforeSync: ({ originalDoc, searchDoc }) => {
+          const collection = searchDoc.doc.relationTo;
+    
+          // If the document is from the blog-articles collection...
+          if (collection === 'products') {
+            return {
+              ...searchDoc,
+              // Map the 'heading' field from the article as the search result title
+              title: originalDoc.heading,
+    
+              // Extract and flatten the rich text content to make it searchable
+              description: extractPlainText(originalDoc.content),
+            };
+          }
+    
+          // For any other collections not explicitly handled, fall back to the default
+          return searchDoc;
+        },
+      },
+    }),
   ],
+
   // Define and configure your collections in this array
   collections: [Media, Banners, Categories, Subcategories, Products, Orders],
 
@@ -39,12 +74,12 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
   }),
+
   // If you want to resize images, crop, set focal point, etc.
   // make sure to install it and pass it to the config.
   // This is optional - if you don't need to do these things,
   // you don't need it!
   sharp,
-  
 })
 
 // have to install uploadthing

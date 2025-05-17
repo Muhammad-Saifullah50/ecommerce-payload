@@ -1,5 +1,4 @@
-import Checkout from '@/components/Checkout'
-import CheckoutCard from '@/components/CheckoutCard'
+
 import CheckoutForm from '@/components/CheckoutForm'
 
 const CheckoutPage = () => {

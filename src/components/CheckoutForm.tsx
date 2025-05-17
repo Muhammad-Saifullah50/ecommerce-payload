@@ -25,10 +25,11 @@ import { useCart } from '@/context/CartContext'
 import { useState } from 'react'
 import { Loader2 } from 'lucide-react'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import PaymentMethods from './PaymentMethods'
 
 export const CheckoutForm = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
   const searchParams = useSearchParams()
 
   const order_id = searchParams.get('order_id')
@@ -93,110 +94,99 @@ export const CheckoutForm = () => {
   }
 
   return (
-    <section className="flex w-full gap-4 justify-between">
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex justify-between w-1/2 gap-4 space-y-6 bg-white rounded-lg border p-4 "
-        >
-          <div className="w-full space-y-6 flex flex-col">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Your name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="address"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Address</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="House number, Street name, Sector/Area, City, Postal code
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex justify-between w-full gap-4 ">
+        <div className="w-1/2 space-y-6 flex flex-col  bg-white rounded-lg border p-4 ">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Your name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="city"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>City</FormLabel>
-                  <FormControl>
-                    <Input placeholder="e.g Karachi" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="contactnumber"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Contact Number</FormLabel>
-                  <FormControl>
-                    <Input placeholder="1234-1234567" {...field} type="tel" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email (optional)</FormLabel>
-                  <FormControl>
-                    <Input placeholder="abc@example.com" {...field} type="email" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="notes"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Notes (optional)</FormLabel>
-                  <FormControl>
-                    <Textarea placeholder="Additional notes about the order" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit">
-              {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Create Order'}
-            </Button>
-          </div>
+          <FormField
+            control={form.control}
+            name="city"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>City</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g Karachi" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="contactnumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Contact Number</FormLabel>
+                <FormControl>
+                  <Input placeholder="1234-1234567" {...field} type="tel" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email (optional)</FormLabel>
+                <FormControl>
+                  <Input placeholder="abc@example.com" {...field} type="email" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="notes"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Notes (optional)</FormLabel>
+                <FormControl>
+                  <Textarea placeholder="Additional notes about the order" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
-        </form>
-      </Form>
-          <div className="flex flex-col gap-4 w-1/2">
-            <CheckoutCard />
-            {order_id && <Checkout order_id={order_id} />}
+        <div className="flex flex-col gap-4 w-1/2">
+          <CheckoutCard />
+
+          <div className="flex bg-white rounded-lg border p-4">
+          <FormField
+            control={form.control}
+            name="notes"
+            render={() => (
+              <FormItem>
+                <FormLabel>Payment Method</FormLabel>
+                <FormControl>
+                    <PaymentMethods form={form} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           </div>
-    </section>
+        </div>
+      </form>
+    </Form>
   )
 }
 
 export default CheckoutForm
-
