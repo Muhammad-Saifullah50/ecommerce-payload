@@ -57,11 +57,13 @@ export const Products: CollectionConfig = {
       name: 'category',
       type: 'relationship',
       relationTo: 'categories',
+      required: true,
     },
     {
       name: 'subcategory',
       type: 'relationship',
       relationTo: 'subcategories',
+      required: true,
     },
     {
       name: 'images',
