@@ -24,32 +24,41 @@ export const searchProducts = async (query: string) => {
     const payload = await getPayload({ config })
 
     const products = await payload.find({
-        collection: 'products',
-        where: {
-          category: {
-            equals: query,
-          },
-          subcategory: {
-            equals: query,
-          },
-          or: [
-            {
-              title: {
-                contains: query,
-              },
+      collection: 'products',
+      where: {
+        or: [
+          {
+            title: {
+              contains: query,
             },
-            {
-              description: {
-                contains: query,
-              },
+          },
+          {
+            description: {
+              contains: query,
             },
-          ],
-        },
-      })
+          },
+          {
+            short_description: {
+              contains: query,
+            },
+          },
+          {
+            category: {
+              contains: query,
+            },
+          },
+          {
+            subcategory: {
+              contains: query,
+            },
+          },
+        ],
+      },
+    })
 
     return products
   } catch (error) {
-    console.error('Error searching products')
+    console.error('Error searching products', error)
   }
 }
 

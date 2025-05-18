@@ -9,7 +9,6 @@ import { Orders } from './collections/Orders'
 import { Subcategories } from './collections/Subcategories'
 import { Products } from './collections/Products'
 import { uploadthingStorage } from '@payloadcms/storage-uploadthing'
-import { searchPlugin } from '@payloadcms/plugin-search'
 import { extractPlainText } from './lib/extract'
 
 export default buildConfig({
@@ -24,44 +23,7 @@ export default buildConfig({
         token: process.env.UPLOADTHING_TOKEN,
       },
     }),
-    searchPlugin({
 
-      collections: ['products'],
-    
-      searchOverrides: {
-        fields: ({ defaultFields }) => [
-          ...defaultFields,
-          {
-            name: 'description',
-            type: 'textarea',
-            label: 'Description',
-            admin: {
-              readOnly: true,
-            },
-          },
-        ],
-    
-        // Map content from your original documents into the shape expected in the search index
-        beforeSync: ({ originalDoc, searchDoc }) => {
-          const collection = searchDoc.doc.relationTo;
-    
-          // If the document is from the blog-articles collection...
-          if (collection === 'products') {
-            return {
-              ...searchDoc,
-              // Map the 'heading' field from the article as the search result title
-              title: originalDoc.heading,
-    
-              // Extract and flatten the rich text content to make it searchable
-              description: extractPlainText(originalDoc.content),
-            };
-          }
-    
-          // For any other collections not explicitly handled, fall back to the default
-          return searchDoc;
-        },
-      },
-    }),
   ],
 
   // Define and configure your collections in this array
