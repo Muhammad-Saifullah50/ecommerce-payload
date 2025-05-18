@@ -20,11 +20,9 @@ import { Input } from '@/components/ui/input'
 import { checkoutFormSchema } from '@/validations'
 import { Textarea } from './ui/textarea'
 import CheckoutCard from './CheckoutCard'
-import Checkout from './Checkout'
 import { useCart } from '@/context/CartContext'
 import { useState } from 'react'
-import { Loader2 } from 'lucide-react'
-import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import PaymentMethods from './PaymentMethods'
 
 export const CheckoutForm = () => {

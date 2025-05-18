@@ -1,25 +1,22 @@
 import FilterSidebar from '@/components/FilterSidebar'
 import { ChevronRight } from 'lucide-react'
-
 import { Product } from 'payload-types'
-import ProductCard from '@/components/ProductCard'
 import { getProductsByParams } from '@/actions/product.actions'
 import { PaginatedDocs } from 'payload'
-import { Suspense } from 'react'
+import ProductGrid from '@/components/ProductGrid'
+import { Suspense, use } from 'react'
 import ProductsSkeleton from '@/components/skeletons/ProductsSkeleton'
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 
-export const experimental_ppr = true;
-
-const ShopPage = async ({ searchParams }: { searchParams: SearchParams }) => {
-  const usableParams = await searchParams
+const ShopPage = ({ searchParams }: { searchParams: SearchParams }) => {
+  const usableParams = use(searchParams)
   const categoryName = usableParams.category
   const subCategoryName = usableParams.subcategory
 
   const hasAnyParams = Object.values(usableParams).some((value) => value !== undefined)
 
-  const products: PaginatedDocs<Product> | undefined = await getProductsByParams(usableParams)
+  const productsPromise: PaginatedDocs<Product> | undefined = getProductsByParams(usableParams)
 
   return (
     <main className="flex flex-col gap-4 h-full">
@@ -38,20 +35,10 @@ const ShopPage = async ({ searchParams }: { searchParams: SearchParams }) => {
         <FilterSidebar parameters={usableParams} />
 
         <section>
-          <h1></h1>
-
           <section>
-            <ul className="flex flex-wrap gap-4 items-center justify-center">
-              <Suspense fallback={<ProductsSkeleton />}>
-              {products && products.docs.length > 0 ? (
-                products?.docs.map((product: Product) => (
-                  <ProductCard key={product.id} data={product} />
-                ))
-              ) : (
-                <p>No products found</p>
-              )}
-              </Suspense>
-            </ul>
+            <Suspense fallback={<ProductsSkeleton />}>
+              <ProductGrid productsPromise={productsPromise} />
+            </Suspense>
           </section>
         </section>
       </section>
@@ -60,3 +47,4 @@ const ShopPage = async ({ searchParams }: { searchParams: SearchParams }) => {
 }
 
 export default ShopPage
+// haver to use use() and show loading state

@@ -133,7 +133,7 @@ export const getProductsByParams = async (params: {
   }
 }
 
-// add paginartion
+// have to add paginartion
 export const getProductFeaturesAndBrands = async (params: {
   [key: string]: string | string[] | undefined
 }) => {
@@ -145,7 +145,6 @@ export const getProductFeaturesAndBrands = async (params: {
         return acc.concat(prod.features)
       },
       [] as { name: string; label: string; value: string; id?: string | null }[],
-
     )
     const brands = products?.docs.reduce(
       (acc, prod) => {
@@ -154,10 +153,59 @@ export const getProductFeaturesAndBrands = async (params: {
       [] as { name: string }[],
     )
 
-    return {allFeatures, brands}
+    return { allFeatures, brands }
   } catch (error) {
     console.error('Error getting product features', error)
   }
 }
 
+export const getCategoriesAndSubCategoriesByParameters = async (parameters: {
+  [key: string]: string | string[] | undefined
+}) => {
+  const payload = await getPayload({ config })
 
+  let subcategories
+
+  if (parameters.category) {
+    const categoryDoc = await payload.find({
+      collection: 'categories',
+      where: {
+        value: {
+          equals: parameters.category,
+        },
+      },
+    })
+
+    subcategories = await payload.find({
+      collection: 'subcategories',
+      where: {
+        category: {
+          equals: categoryDoc.docs[0].id,
+        },
+      },
+      select: {
+        label: true,
+        value: true,
+      },
+    })
+  } else {
+    subcategories = await payload.find({
+      collection: 'subcategories',
+      select: {
+        label: true,
+        value: true,
+      },
+    })
+  }
+
+  const categories = await payload.find({
+    collection: 'categories',
+    depth: 1,
+    select: {
+      label: true,
+      value: true,
+    },
+  })
+
+  return { categories, subcategories }
+}

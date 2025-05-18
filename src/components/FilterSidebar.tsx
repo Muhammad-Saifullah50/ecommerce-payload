@@ -1,155 +1,59 @@
-import { getPayload } from 'payload'
-import config from '@/payload.config'
+import { Accordion } from '@/components/ui/accordion'
 
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion'
-import Link from 'next/link'
-import { cn } from '@/lib/utils'
-import { getProductFeaturesAndBrands } from '@/actions/product.actions'
-import FeatureCheckbox from './FeatureCheckbox'
-import { prices } from '@/data/prices'
-import PriceRangeCheckbox from './PriceRangeCheckbox'
-import BrandsCheckbox from './BrandsCheckbox'
+  getCategoriesAndSubCategoriesByParameters,
+  getProductFeaturesAndBrands,
+} from '@/actions/product.actions'
 
-type Feature = {
-  id?: string | null | undefined
-  name: string
-  value: string
-  label: string
-}
-const FilterSidebar = async ({
+import BrandFilter from './BrandFilter'
+import PricesFilter from './PricesFilter'
+import FeaturesFilter from './FeaturesFilter'
+import SubcategoriesFilter from './SubcategoriesFilter'
+import CategoriesFilter from './CategoriesFilter'
+import { Suspense } from 'react'
+import FilterItemSkeleton from './skeletons/FilterItemSkeleton'
+
+const FilterSidebar = ({
   parameters,
 }: {
   parameters: { [key: string]: string | string[] | undefined }
 }) => {
-  const payload = await getPayload({ config })
+  const categoriesAndSubcategoriesPromise = getCategoriesAndSubCategoriesByParameters(parameters)
 
-  let subcategories
+  const brandAndFeaturesPromise = getProductFeaturesAndBrands(parameters)
 
-  if (parameters.category) {
-    const categoryDoc = await payload.find({
-      collection: 'categories',
-      where: {
-        value: {
-          equals: parameters.category,
-        },
-      },
-    })
-
-    subcategories = await payload.find({
-      collection: 'subcategories',
-      where: {
-        category: {
-          equals: categoryDoc.docs[0].id,
-        },
-      },
-      select: {
-        label: true,
-        value: true,
-      },
-    })
-  } else {
-    subcategories = await payload.find({
-      collection: 'subcategories',
-      select: {
-        label: true,
-        value: true,
-      },
-    })
-  }
-
-  const categories = await payload.find({
-    collection: 'categories',
-    depth: 1,
-    select: {
-      label: true,
-      value: true,
-    },
-  })
-
-  const result = await getProductFeaturesAndBrands(parameters)
-
-  const features = result?.allFeatures
-  const brands = result?.brands
   return (
     <aside className="w-xs">
-      <Accordion type="multiple" className="w-full" defaultValue={['item-1', 'item-2', 'item-3', 'item-4', 'item-5']}>
-        <AccordionItem value="item-1">
-          <AccordionTrigger className="font-semibold text-base">Categories</AccordionTrigger>
-          <AccordionContent className="flex flex-col gap-2">
-            {categories.docs.map((category) => {
-              const isActive = parameters.category === category.value
+      <Accordion
+        type="multiple"
+        className="w-full"
+        defaultValue={['item-1', 'item-2', 'item-3', 'item-4', 'item-5']}
+      >
+        <Suspense fallback={<FilterItemSkeleton />}>
+          <CategoriesFilter
+            categoriesPromise={categoriesAndSubcategoriesPromise}
+            parameters={parameters}
+          />
+        </Suspense>
+        <Suspense fallback={<FilterItemSkeleton />}>
+          <SubcategoriesFilter
+            parameters={parameters}
+            subcategoriesPromise={categoriesAndSubcategoriesPromise}
+          />
+        </Suspense>
 
-              return (
-                <Link
-                  key={category.id}
-                  className={cn('text-sm', isActive ? 'text-blue-primary' : 'text-gray-tertiary')}
-                  href={`/shop/?category=${category.value}`}
-                >
-                  {category.label}
-                </Link>
-              )
-            })}
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-2">
-          <AccordionTrigger className="font-semibold text-base">Subcategories</AccordionTrigger>
-          <AccordionContent className="flex flex-col gap-2">
-            {subcategories.docs.map((subcategory) => {
-              const isActive = parameters.subcategory === subcategory.value
+        <Suspense fallback={<FilterItemSkeleton />}>
+          <FeaturesFilter featuresPromise={brandAndFeaturesPromise} />
+        </Suspense>
+        <PricesFilter />
 
-              const newParams = new URLSearchParams(parameters as Record<string, string>)
-              newParams.set('subcategory', subcategory.value)
-
-              const href = `/shop/?${newParams.toString()}`
-
-              return (
-                <Link
-                  key={subcategory.id}
-                  className={cn('text-sm', isActive ? 'text-blue-primary' : 'text-gray-tertiary')}
-                  href={href}
-                >
-                  {subcategory.label}
-                </Link>
-              )
-            })}{' '}
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-3">
-          <AccordionTrigger className="font-semibold text-base">Features</AccordionTrigger>
-          <AccordionContent className="flex flex-col gap-2">
-            {features &&
-              features.map((feature: Feature) => {
-                return <FeatureCheckbox key={feature.id} feature={feature} />
-              })}
-            {/* . also disoplay the features in the product page*/}
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-4">
-          <AccordionTrigger className="font-semibold text-base">Price Range</AccordionTrigger>
-          <AccordionContent className="flex flex-col gap-2">
-            {prices &&
-              prices.map((price) => {
-                return <PriceRangeCheckbox key={price.id} price={price} />
-              })}
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-5">
-          <AccordionTrigger className="font-semibold text-base">Brand</AccordionTrigger>
-          <AccordionContent className="flex flex-col gap-2">
-            {brands &&
-              brands.map((brand) => {
-                return <BrandsCheckbox key={brand.name} brand={brand} />
-              })}
-          </AccordionContent>
-        </AccordionItem>
+        <Suspense fallback={<FilterItemSkeleton />}>
+          <BrandFilter brandsPromise={brandAndFeaturesPromise} />
+        </Suspense>
       </Accordion>
     </aside>
   )
 }
 
 export default FilterSidebar
+// have to correct type errors in all these filters
