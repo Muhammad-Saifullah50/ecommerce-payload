@@ -124,7 +124,7 @@ const FilterSidebar = async ({
                   </Link>
                 )
               })}{' '}
-              {/* implememt shadcn xcheckbox here  */}
+              {/* implememt shadcn xcheckbox here  . also disoplay the features in the product page*/}
           </AccordionContent>
         </AccordionItem>
       </Accordion>
