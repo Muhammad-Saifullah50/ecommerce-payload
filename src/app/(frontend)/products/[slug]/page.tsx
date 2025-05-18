@@ -12,19 +12,19 @@ import { getAllProductSlugs } from '@/actions/product.actions'
 
 
 // havbe to also ssee the solution to statically generate when new products arrive
-export const revalidate = 60
+// export const revalidate = 60
 
-export const generateStaticParams = async () => {
-  try {
-    const productSlugs = await getAllProductSlugs()
+// export const generateStaticParams = async () => {
+//   try {
+//     const productSlugs = await getAllProductSlugs()
 
-    return productSlugs?.map((slug) => ({
-      slug: slug,
-    }))
-  } catch (error) {
-    console.error(error)
-  }
-}
+//     return productSlugs?.map((slug) => ({
+//       slug: slug,
+//     }))
+//   } catch (error) {
+//     console.error(error)
+//   }
+// }
 
 // hjave to comment thios while developing
 const IndividualProductPage = async ({ params }: { params: { slug: string } }) => {
