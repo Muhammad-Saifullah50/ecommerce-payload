@@ -209,8 +209,8 @@ export interface Product {
     };
     [k: string]: unknown;
   };
-  category?: (string | null) | Category;
-  subcategory?: (string | null) | Subcategory;
+  category: string | Category;
+  subcategory: string | Subcategory;
   images: (string | Media)[];
   inStock: boolean;
   brand: string;
