@@ -47,3 +47,5 @@ const FeatureCheckbox = ({
 }
 
 export default FeatureCheckbox
+
+// i habve to remove duplicate features from different products

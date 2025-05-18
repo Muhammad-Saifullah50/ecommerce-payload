@@ -9,9 +9,18 @@ import {
 } from '@/components/ui/accordion'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import { getProductFeatures } from '@/actions/product.actions'
+import { getProductFeaturesAndBrands } from '@/actions/product.actions'
 import FeatureCheckbox from './FeatureCheckbox'
+import { prices } from '@/data/prices'
+import PriceRangeCheckbox from './PriceRangeCheckbox'
+import BrandsCheckbox from './BrandsCheckbox'
 
+type Feature = {
+  id?: string | null | undefined
+  name: string
+  value: string
+  label: string
+}
 const FilterSidebar = async ({
   parameters,
 }: {
@@ -62,10 +71,13 @@ const FilterSidebar = async ({
     },
   })
 
-  const features = await getProductFeatures(parameters)
+  const result = await getProductFeaturesAndBrands(parameters)
+
+  const features = result?.allFeatures
+  const brands = result?.brands
   return (
     <aside className="w-xs">
-      <Accordion type="multiple" className="w-full" defaultValue={['item-1', 'item-2']}>
+      <Accordion type="multiple" className="w-full" defaultValue={['item-1', 'item-2', 'item-3', 'item-4', 'item-5']}>
         <AccordionItem value="item-1">
           <AccordionTrigger className="font-semibold text-base">Categories</AccordionTrigger>
           <AccordionContent className="flex flex-col gap-2">
@@ -111,10 +123,28 @@ const FilterSidebar = async ({
           <AccordionTrigger className="font-semibold text-base">Features</AccordionTrigger>
           <AccordionContent className="flex flex-col gap-2">
             {features &&
-              features.map((feature) => {
+              features.map((feature: Feature) => {
                 return <FeatureCheckbox key={feature.id} feature={feature} />
               })}
-            {/* implememt shadcn checkbox here  . also disoplay the features in the product page*/}
+            {/* . also disoplay the features in the product page*/}
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="item-4">
+          <AccordionTrigger className="font-semibold text-base">Price Range</AccordionTrigger>
+          <AccordionContent className="flex flex-col gap-2">
+            {prices &&
+              prices.map((price) => {
+                return <PriceRangeCheckbox key={price.id} price={price} />
+              })}
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="item-5">
+          <AccordionTrigger className="font-semibold text-base">Brand</AccordionTrigger>
+          <AccordionContent className="flex flex-col gap-2">
+            {brands &&
+              brands.map((brand) => {
+                return <BrandsCheckbox key={brand.name} brand={brand} />
+              })}
           </AccordionContent>
         </AccordionItem>
       </Accordion>

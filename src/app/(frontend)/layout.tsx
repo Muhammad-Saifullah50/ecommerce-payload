@@ -25,7 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={` ${inter.variable} antialiased bg-slate-50`}>
+      <body
+        className={` ${inter.variable} antialiased bg-slate-50`}
+      >
         <section className="bg-white">
           <div className="max-w-7xl mx-auto px-6">
             <Navbar />
@@ -36,8 +38,7 @@ export default function RootLayout({
           <CartProvider>
             {children}
             <Toaster />
-
-            </CartProvider>
+          </CartProvider>
         </main>
 
         <section className="bg-white  w-full">

@@ -1,12 +1,16 @@
 import FilterSidebar from '@/components/FilterSidebar'
 import { ChevronRight } from 'lucide-react'
-import { getPayload, PaginatedDocs } from 'payload'
-import config from '@/payload.config'
+
 import { Product } from 'payload-types'
 import ProductCard from '@/components/ProductCard'
 import { getProductsByParams } from '@/actions/product.actions'
+import { PaginatedDocs } from 'payload'
+import { Suspense } from 'react'
+import ProductsSkeleton from '@/components/skeletons/ProductsSkeleton'
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
+
+export const experimental_ppr = true;
 
 const ShopPage = async ({ searchParams }: { searchParams: SearchParams }) => {
   const usableParams = await searchParams
@@ -18,7 +22,7 @@ const ShopPage = async ({ searchParams }: { searchParams: SearchParams }) => {
   const products: PaginatedDocs<Product> | undefined = await getProductsByParams(usableParams)
 
   return (
-    <main className="flex flex-col gap-4 h-[calc(100vh-10rem)]">
+    <main className="flex flex-col gap-4 h-full">
       <div className="flex gap-2 text-gray-primary text-base">
         {hasAnyParams && (
           <div className="flex items-center gap-1">
@@ -38,6 +42,7 @@ const ShopPage = async ({ searchParams }: { searchParams: SearchParams }) => {
 
           <section>
             <ul className="flex flex-wrap gap-4 items-center justify-center">
+              <Suspense fallback={<ProductsSkeleton />}>
               {products && products.docs.length > 0 ? (
                 products?.docs.map((product: Product) => (
                   <ProductCard key={product.id} data={product} />
@@ -45,6 +50,7 @@ const ShopPage = async ({ searchParams }: { searchParams: SearchParams }) => {
               ) : (
                 <p>No products found</p>
               )}
+              </Suspense>
             </ul>
           </section>
         </section>

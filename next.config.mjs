@@ -9,6 +9,10 @@ const nextConfig = {
   }, 
   eslint: {
     ignoreDuringBuilds: true
+  },
+
+  experimental: {
+    ppr: true,
   }
 }
 

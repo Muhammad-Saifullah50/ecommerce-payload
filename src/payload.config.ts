@@ -9,7 +9,6 @@ import { Orders } from './collections/Orders'
 import { Subcategories } from './collections/Subcategories'
 import { Products } from './collections/Products'
 import { uploadthingStorage } from '@payloadcms/storage-uploadthing'
-import { extractPlainText } from './lib/extract'
 
 export default buildConfig({
   // If you'd like to use Rich Text, pass your editor here
