@@ -4,6 +4,7 @@ import { getPayload, PaginatedDocs } from 'payload'
 import config from '@/payload.config'
 import { Product } from 'payload-types'
 import ProductCard from '@/components/ProductCard'
+import { getProductsByParams } from '@/actions/product.actions'
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 
@@ -14,61 +15,7 @@ const ShopPage = async ({ searchParams }: { searchParams: SearchParams }) => {
 
   const hasAnyParams = Object.values(usableParams).some((value) => value !== undefined)
 
-  const payload = await getPayload({ config })
-
-  let products: PaginatedDocs<Product>
-
-  if (!hasAnyParams) {
-    products = await payload.find({
-      collection: 'products',
-      limit: 10,
-    })
-  } else if (categoryName && subCategoryName) {
-    products = await payload.find({
-      collection: 'products',
-      limit: 10,
-      where: {
-        and: [
-          {
-            'category.value': {
-              equals: categoryName,
-            },
-          },
-
-          {
-            'subcategory.value': {
-              equals: subCategoryName,
-            },
-          },
-        ],
-      },
-    })
-  } else if (categoryName || subCategoryName) {
-    products = await payload.find({
-      collection: 'products',
-      limit: 10,
-      where: {
-        or: [
-          {
-            'category.value': {
-              equals: categoryName,
-            },
-          },
-
-          {
-            'subcategory.value': {
-              equals: subCategoryName,
-            },
-          },
-        ],
-      },
-    })
-  } else {
-    products = await payload.find({
-      collection: 'products',
-      limit: 10,
-    })
-  }
+  const products: PaginatedDocs<Product> | undefined = await getProductsByParams(usableParams)
 
   return (
     <main className="flex flex-col gap-4 h-[calc(100vh-10rem)]">
@@ -91,9 +38,13 @@ const ShopPage = async ({ searchParams }: { searchParams: SearchParams }) => {
 
           <section>
             <ul className="flex flex-wrap gap-4 items-center justify-center">
-              {products?.docs.map((product: Product) => (
-                <ProductCard key={product.id} data={product} />
-              ))}
+              {products && products.docs.length > 0 ? (
+                products?.docs.map((product: Product) => (
+                  <ProductCard key={product.id} data={product} />
+                ))
+              ) : (
+                <p>No products found</p>
+              )}
             </ul>
           </section>
         </section>

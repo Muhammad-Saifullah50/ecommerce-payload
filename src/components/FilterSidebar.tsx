@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/accordion'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
+import { getProductFeatures } from '@/actions/product.actions'
 
 const FilterSidebar = async ({
   parameters,
@@ -60,7 +61,7 @@ const FilterSidebar = async ({
     },
   })
 
-  const features = await getProductFeatures()
+  const features = await getProductFeatures(parameters)
   return (
     <aside className="w-xs">
       <Accordion type="multiple" className="w-full" defaultValue={['item-1', 'item-2']}>
@@ -108,24 +109,22 @@ const FilterSidebar = async ({
         <AccordionItem value="item-3">
           <AccordionTrigger className="font-semibold text-lg">Features</AccordionTrigger>
           <AccordionContent className="flex flex-col gap-2">
-            {subcategories.docs.map((subcategory) => {
-              const isActive = parameters.subcategory === subcategory.value
+            {features &&
+              features.map((feature) => {
+                // const isActive = parameters.subcategory === subcategory.value
 
-              const newParams = new URLSearchParams(parameters as Record<string, string>)
-              newParams.set('subcategory', subcategory.value)
+                const newParams = new URLSearchParams(parameters as Record<string, string>)
+                newParams.set('feature', feature.value)
 
-              const href = `/shop/?${newParams.toString()}`
+                const href = `/shop/?${newParams.toString()}`
 
-              return (
-                <Link
-                  key={subcategory.id}
-                  className={cn('text-base', isActive ? 'text-blue-primary' : 'text-gray-tertiary')}
-                  href={href}
-                >
-                  {subcategory.label}
-                </Link>
-              )
-            })}{' '}
+                return (
+                  <Link key={feature.id} className={cn('text-base text-gray-tertiary')} href={href}>
+                    {feature.name}: {feature.value}
+                  </Link>
+                )
+              })}{' '}
+              {/* implememt shadcn xcheckbox here  */}
           </AccordionContent>
         </AccordionItem>
       </Accordion>
