@@ -69,15 +69,6 @@ export const Orders: CollectionConfig = {
         { label: 'Refunded', value: 'refunded' },
       ],
     },
-    {
-      name: 'paymentData',
-      type: 'json',
-      admin: {
-        readOnly: true,
-        components: {
-          Field: PaymentField,
-        },
-      },
-    },
   ],
 }
+// have to correct it when implemenmting

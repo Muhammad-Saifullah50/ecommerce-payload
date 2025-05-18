@@ -62,4 +62,16 @@ export const searchProducts = async (query: string) => {
   }
 }
 
-// have to refine the searchging ,mechanism
+export const getProductsByParams = async (params: { [key: string]: string | string[] | undefined }) => {
+  
+}
+export const getProductFeatures = async (params: { [key: string]: string | string[] | undefined }) => {
+ try {
+  
+  const payload = await getPayload({ config })
+
+  
+ } catch (error) {
+    console.error('Error getting product features', error)
+ }  
+}

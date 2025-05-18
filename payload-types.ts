@@ -213,6 +213,12 @@ export interface Product {
   subcategory?: (string | null) | Subcategory;
   images: (string | Media)[];
   inStock: boolean;
+  brand: string;
+  features: {
+    name: string;
+    value: string;
+    id?: string | null;
+  }[];
   updatedAt: string;
   createdAt: string;
 }
@@ -232,15 +238,6 @@ export interface Order {
   cartItems: (string | Product)[];
   paymentMethod?: ('cod' | '1link-raast') | null;
   paymentStatus?: ('pending' | 'paid' | 'failed' | 'refunded') | null;
-  paymentData?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -409,6 +406,14 @@ export interface ProductsSelect<T extends boolean = true> {
   subcategory?: T;
   images?: T;
   inStock?: T;
+  brand?: T;
+  features?:
+    | T
+    | {
+        name?: T;
+        value?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -427,7 +432,6 @@ export interface OrdersSelect<T extends boolean = true> {
   cartItems?: T;
   paymentMethod?: T;
   paymentStatus?: T;
-  paymentData?: T;
   updatedAt?: T;
   createdAt?: T;
 }

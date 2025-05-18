@@ -1,6 +1,6 @@
 import FilterSidebar from '@/components/FilterSidebar'
 import { ChevronRight } from 'lucide-react'
-import { getPayload } from 'payload'
+import { getPayload, PaginatedDocs } from 'payload'
 import config from '@/payload.config'
 import { Product } from 'payload-types'
 import ProductCard from '@/components/ProductCard'
@@ -16,30 +16,57 @@ const ShopPage = async ({ searchParams }: { searchParams: SearchParams }) => {
 
   const payload = await getPayload({ config })
 
-  let products
+  let products: PaginatedDocs<Product>
 
   if (!hasAnyParams) {
     products = await payload.find({
       collection: 'products',
       limit: 10,
     })
-  } else {
+  } else if (categoryName && subCategoryName) {
     products = await payload.find({
       collection: 'products',
+      limit: 10,
       where: {
-        or: [
+        and: [
           {
-            category: {
+            'category.value': {
               equals: categoryName,
             },
           },
+
           {
-            subcategory: {
+            'subcategory.value': {
               equals: subCategoryName,
             },
           },
         ],
       },
+    })
+  } else if (categoryName || subCategoryName) {
+    products = await payload.find({
+      collection: 'products',
+      limit: 10,
+      where: {
+        or: [
+          {
+            'category.value': {
+              equals: categoryName,
+            },
+          },
+
+          {
+            'subcategory.value': {
+              equals: subCategoryName,
+            },
+          },
+        ],
+      },
+    })
+  } else {
+    products = await payload.find({
+      collection: 'products',
+      limit: 10,
     })
   }
 
@@ -53,8 +80,6 @@ const ShopPage = async ({ searchParams }: { searchParams: SearchParams }) => {
             <p>{categoryName}</p>
             <ChevronRight className="w-4" />
             <p>{subCategoryName}</p>
-            <ChevronRight className="w-4" />
-            {/* <p>{product.docs[0].title}</p> */}
           </div>
         )}
       </div>
