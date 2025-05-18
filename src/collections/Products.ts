@@ -86,20 +86,25 @@ export const Products: CollectionConfig = {
       name: 'features',
       type: 'array',
       required: true,
-      
+
       fields: [
         {
-          name: 'name',
+          name: 'label',
           type: 'text',
           required: true,
+          admin: {
+            description: 'This should be capitalized',
+          },
         },
         {
           name: 'value',
           type: 'text',
           required: true,
+          admin: {
+            description: 'This should be in small case',
+          },
         },
       ],
-      
     },
   ],
 }

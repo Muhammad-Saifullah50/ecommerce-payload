@@ -215,7 +215,13 @@ export interface Product {
   inStock: boolean;
   brand: string;
   features: {
-    name: string;
+    /**
+     * This should be capitalized
+     */
+    label: string;
+    /**
+     * This should be in small case
+     */
     value: string;
     id?: string | null;
   }[];
@@ -410,7 +416,7 @@ export interface ProductsSelect<T extends boolean = true> {
   features?:
     | T
     | {
-        name?: T;
+        label?: T;
         value?: T;
         id?: T;
       };

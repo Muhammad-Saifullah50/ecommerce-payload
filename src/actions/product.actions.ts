@@ -74,6 +74,14 @@ export const getProductsByParams = async (params: {
     const categoryName = params.category
     const subCategoryName = params.subcategory
 
+     const features = Array.isArray(params.feature)
+    ? params.feature
+    : params.feature
+    ? [params.feature]
+    : []
+
+    
+
     const payload = await getPayload({ config })
 
     if (!hasAnyParams) {
@@ -143,7 +151,7 @@ export const getProductFeatures = async (params: {
 
     const allFeatures = products?.docs.reduce((acc, prod) => {
       return acc.concat(prod.features);
-    }, [] as { name: string; value: string; id?: string | null }[]);
+    }, [] as { name: string; label: string; value: string; id?: string | null }[]);
     
 
     return allFeatures

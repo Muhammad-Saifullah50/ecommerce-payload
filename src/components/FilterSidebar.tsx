@@ -10,6 +10,7 @@ import {
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { getProductFeatures } from '@/actions/product.actions'
+import FeatureCheckbox from './FeatureCheckbox'
 
 const FilterSidebar = async ({
   parameters,
@@ -66,7 +67,7 @@ const FilterSidebar = async ({
     <aside className="w-xs">
       <Accordion type="multiple" className="w-full" defaultValue={['item-1', 'item-2']}>
         <AccordionItem value="item-1">
-          <AccordionTrigger className="font-semibold text-lg">Categories</AccordionTrigger>
+          <AccordionTrigger className="font-semibold text-base">Categories</AccordionTrigger>
           <AccordionContent className="flex flex-col gap-2">
             {categories.docs.map((category) => {
               const isActive = parameters.category === category.value
@@ -74,7 +75,7 @@ const FilterSidebar = async ({
               return (
                 <Link
                   key={category.id}
-                  className={cn('text-base', isActive ? 'text-blue-primary' : 'text-gray-tertiary')}
+                  className={cn('text-sm', isActive ? 'text-blue-primary' : 'text-gray-tertiary')}
                   href={`/shop/?category=${category.value}`}
                 >
                   {category.label}
@@ -84,7 +85,7 @@ const FilterSidebar = async ({
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-2">
-          <AccordionTrigger className="font-semibold text-lg">Subcategories</AccordionTrigger>
+          <AccordionTrigger className="font-semibold text-base">Subcategories</AccordionTrigger>
           <AccordionContent className="flex flex-col gap-2">
             {subcategories.docs.map((subcategory) => {
               const isActive = parameters.subcategory === subcategory.value
@@ -97,7 +98,7 @@ const FilterSidebar = async ({
               return (
                 <Link
                   key={subcategory.id}
-                  className={cn('text-base', isActive ? 'text-blue-primary' : 'text-gray-tertiary')}
+                  className={cn('text-sm', isActive ? 'text-blue-primary' : 'text-gray-tertiary')}
                   href={href}
                 >
                   {subcategory.label}
@@ -107,24 +108,13 @@ const FilterSidebar = async ({
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-3">
-          <AccordionTrigger className="font-semibold text-lg">Features</AccordionTrigger>
+          <AccordionTrigger className="font-semibold text-base">Features</AccordionTrigger>
           <AccordionContent className="flex flex-col gap-2">
             {features &&
               features.map((feature) => {
-                // const isActive = parameters.subcategory === subcategory.value
-
-                const newParams = new URLSearchParams(parameters as Record<string, string>)
-                newParams.set('feature', feature.value)
-
-                const href = `/shop/?${newParams.toString()}`
-
-                return (
-                  <Link key={feature.id} className={cn('text-base text-gray-tertiary')} href={href}>
-                    {feature.name}: {feature.value}
-                  </Link>
-                )
-              })}{' '}
-              {/* implememt shadcn xcheckbox here  . also disoplay the features in the product page*/}
+                return <FeatureCheckbox key={feature.id} feature={feature} />
+              })}
+            {/* implememt shadcn checkbox here  . also disoplay the features in the product page*/}
           </AccordionContent>
         </AccordionItem>
       </Accordion>
