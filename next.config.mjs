@@ -10,6 +10,9 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true
   },
+  experimental: {
+    ppr: true
+  }
 }
 
 export default withPayload(nextConfig, { devBundleServerPackages: false })

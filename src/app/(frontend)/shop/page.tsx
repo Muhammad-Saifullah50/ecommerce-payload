@@ -7,6 +7,8 @@ import ProductGrid from '@/components/ProductGrid'
 import { Suspense, use } from 'react'
 import ProductsSkeleton from '@/components/skeletons/ProductsSkeleton'
 
+export const experimental_ppr = true
+
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 
 const ShopPage = ({ searchParams }: { searchParams: SearchParams }) => {
@@ -47,4 +49,3 @@ const ShopPage = ({ searchParams }: { searchParams: SearchParams }) => {
 }
 
 export default ShopPage
-// haver to use use() and show loading state
