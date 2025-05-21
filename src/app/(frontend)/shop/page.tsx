@@ -1,24 +1,28 @@
-import FilterSidebar from '@/components/FilterSidebar'
+// page.tsx or ShopPage.tsx
+import { Suspense } from 'react'
 import { ChevronRight } from 'lucide-react'
-import { Product } from 'payload-types'
-import { getProductsByParams } from '@/actions/product.actions'
-import { PaginatedDocs } from 'payload'
+import FilterSidebar from '@/components/FilterSidebar'
 import ProductGrid from '@/components/ProductGrid'
-import { Suspense, use } from 'react'
 import ProductsSkeleton from '@/components/skeletons/ProductsSkeleton'
+import { getProductsByParams } from '@/actions/product.actions'
+import { Product } from 'payload-types'
+import { PaginatedDocs } from 'payload'
 
 export const experimental_ppr = true
 
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
+type Props = {
+  searchParams: { [key: string]: string | string[] | undefined }
+}
 
-const ShopPage = ({ searchParams }: { searchParams: SearchParams }) => {
-  const usableParams = use(searchParams)
-  const categoryName = usableParams.category
-  const subCategoryName = usableParams.subcategory
+function ProductGridWrapper({ searchParams }: Props) {
+  const productsPromise: Promise<PaginatedDocs<Product>> = getProductsByParams(searchParams)
+  return <ProductGrid productsPromise={productsPromise} />
+}
 
-  const hasAnyParams = Object.values(usableParams).some((value) => value !== undefined)
-
-  const productsPromise: PaginatedDocs<Product> | undefined = getProductsByParams(usableParams)
+const ShopPage = ({ searchParams }: Props) => {
+  const categoryName = searchParams.category
+  const subCategoryName = searchParams.subcategory
+  const hasAnyParams = Object.values(searchParams).some((value) => value !== undefined)
 
   return (
     <main className="flex flex-col gap-4 h-full">
@@ -33,15 +37,14 @@ const ShopPage = ({ searchParams }: { searchParams: SearchParams }) => {
           </div>
         )}
       </div>
+
       <section className="flex gap-8">
-        <FilterSidebar parameters={usableParams} />
+        <FilterSidebar parameters={searchParams} />
 
         <section>
-          <section>
-            <Suspense fallback={<ProductsSkeleton />}>
-              <ProductGrid productsPromise={productsPromise} />
-            </Suspense>
-          </section>
+          <Suspense fallback={<ProductsSkeleton />}>
+            <ProductGridWrapper searchParams={searchParams} />
+          </Suspense>
         </section>
       </section>
     </main>
