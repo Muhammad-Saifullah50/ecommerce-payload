@@ -1,50 +1,37 @@
-// page.tsx or ShopPage.tsx
-import { Suspense } from 'react'
-import { ChevronRight } from 'lucide-react'
 import FilterSidebar from '@/components/FilterSidebar'
-import ProductGrid from '@/components/ProductGrid'
-import ProductsSkeleton from '@/components/skeletons/ProductsSkeleton'
-import { getProductsByParams } from '@/actions/product.actions'
+import { ChevronRight } from 'lucide-react'
 import { Product } from 'payload-types'
+import { getProductsByParams } from '@/actions/product.actions'
 import { PaginatedDocs } from 'payload'
+import ProductGrid from '@/components/ProductGrid'
+import { Suspense } from 'react'
+import ProductsSkeleton from '@/components/skeletons/ProductsSkeleton'
+import Route from '@/components/Route'
+import RouteSkeleton from '@/components/skeletons/RouteSkeleton'
+import FilterItemSkeleton from '@/components/skeletons/FilterItemSkeleton'
 
 export const experimental_ppr = true
 
-type Props = {
-  searchParams: { [key: string]: string | string[] | undefined }
-}
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 
-function ProductGridWrapper({ searchParams }: Props) {
-  const productsPromise: Promise<PaginatedDocs<Product>> = getProductsByParams(searchParams)
-  return <ProductGrid productsPromise={productsPromise} />
-}
-
-const ShopPage = ({ searchParams }: Props) => {
-  const categoryName = searchParams.category
-  const subCategoryName = searchParams.subcategory
-  const hasAnyParams = Object.values(searchParams).some((value) => value !== undefined)
-
+const ShopPage = ({ searchParams }: { searchParams: SearchParams }) => {
+  const productsPromise: PaginatedDocs<Product> | undefined = getProductsByParams(searchParams)
   return (
     <main className="flex flex-col gap-4 h-full">
-      <div className="flex gap-2 text-gray-primary text-base">
-        {hasAnyParams && (
-          <div className="flex items-center gap-1">
-            <p>Home</p>
-            <ChevronRight className="w-4" />
-            <p>{categoryName}</p>
-            <ChevronRight className="w-4" />
-            <p>{subCategoryName}</p>
-          </div>
-        )}
-      </div>
-
+      <Suspense fallback={<RouteSkeleton />}>
+        <Route searchParams={searchParams} />
+      </Suspense>
       <section className="flex gap-8">
-        <FilterSidebar parameters={searchParams} />
+        <Suspense fallback={<FilterItemSkeleton />}>
+        <FilterSidebar paramsPromise={searchParams} />
+        </Suspense>
 
         <section>
-          <Suspense fallback={<ProductsSkeleton />}>
-            <ProductGridWrapper searchParams={searchParams} />
-          </Suspense>
+          <section>
+            <Suspense fallback={<ProductsSkeleton />}>
+              <ProductGrid productsPromise={productsPromise} />
+            </Suspense>
+          </section>
         </section>
       </section>
     </main>

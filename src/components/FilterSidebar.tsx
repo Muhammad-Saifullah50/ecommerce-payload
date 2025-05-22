@@ -10,20 +10,23 @@ import PricesFilter from './PricesFilter'
 import FeaturesFilter from './FeaturesFilter'
 import SubcategoriesFilter from './SubcategoriesFilter'
 import CategoriesFilter from './CategoriesFilter'
-import { Suspense } from 'react'
+import { Suspense, use } from 'react'
 import FilterItemSkeleton from './skeletons/FilterItemSkeleton'
 
-const FilterSidebar = ({
-  parameters,
+const FilterSidebar =  ({
+  paramsPromise,
 }: {
-  parameters: { [key: string]: string | string[] | undefined }
+  paramsPromise: { [key: string]: string | string[] | undefined }
 }) => {
+
+  const parameters = use(paramsPromise)
+  
   const categoriesAndSubcategoriesPromise = getCategoriesAndSubCategoriesByParameters(parameters)
 
   const brandAndFeaturesPromise = getProductFeaturesAndBrands(parameters)
 
   return (
-    <aside className="w-xs">
+    <aside className="w-sm">
       <Accordion
         type="multiple"
         className="w-full"

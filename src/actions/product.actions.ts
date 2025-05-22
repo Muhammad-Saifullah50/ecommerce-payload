@@ -62,10 +62,12 @@ export const searchProducts = async (query: string) => {
   }
 }
 
-export const getProductsByParams = async (params: {
+export const getProductsByParams = async (paramsPromise: {
   [key: string]: string | string[] | undefined
 }) => {
-  try {
+  // try {
+
+    const params = await paramsPromise
     const categoryName = params.category
     const subCategoryName = params.subcategory
 
@@ -128,9 +130,9 @@ export const getProductsByParams = async (params: {
     })
 
     return products
-  } catch (error) {
-    console.error('Error getting products by params', error)
-  }
+  // } catch (error) {
+  //   console.error('Error getting products by params', error)
+  // }
 }
 
 // have to add paginartion
