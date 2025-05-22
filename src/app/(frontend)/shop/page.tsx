@@ -15,6 +15,7 @@ export const experimental_ppr = true
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 
 const ShopPage = ({ searchParams }: { searchParams: SearchParams }) => {
+  
   const productsPromise: PaginatedDocs<Product> | undefined = getProductsByParams(searchParams)
   return (
     <main className="flex flex-col gap-4 h-full">

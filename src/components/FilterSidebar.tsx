@@ -30,7 +30,7 @@ const FilterSidebar =  ({
       <Accordion
         type="multiple"
         className="w-full"
-        defaultValue={['item-1', 'item-2', 'item-3', 'item-4', 'item-5']}
+        defaultValue={['item-1', 'item-2', 'item-3', 'item-5']}
       >
         <Suspense fallback={<FilterItemSkeleton />}>
           <CategoriesFilter

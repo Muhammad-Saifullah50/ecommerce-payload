@@ -1,7 +1,8 @@
 import { ChevronRight } from 'lucide-react'
+import { use } from 'react'
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
-const Route = async ({ searchParams }: { searchParams: SearchParams }) => {
-  const usableParams = await searchParams
+const Route =  ({ searchParams }: { searchParams: SearchParams }) => {
+  const usableParams = use(searchParams)
   const categoryName = usableParams.category
   const subCategoryName = usableParams.subcategory
 
