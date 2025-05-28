@@ -59,7 +59,9 @@ const IndividualProductPage = async ({ params }: { params: { slug: string } }) =
       </section>
       <section className="flex gap-4 ">
         <section className="flex gap-4 p-4 bg-white border rounded-lg w-4/6">
-          <ProductDescriptionTabs description={product.docs[0].description} />
+          <ProductDescriptionTabs 
+          description={product.docs[0].description} 
+          features={product.docs[0].features}/>
         </section>
         <section className="flex gap-4 p-4 bg-white border rounded-lg w-2/6">
           <MayLikeProducts

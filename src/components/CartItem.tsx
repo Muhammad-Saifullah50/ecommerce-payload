@@ -10,7 +10,7 @@ const CartItem = ({ item }: { item: CartItemType }) => {
   const [quantity, setQuantity] = useState(item.quantity)
 
   const { removeItem } = useCart()
-  console.log(item.price, item.discount_percentage)
+
   const discountedPrice = item.price - (item.price * item.discount_percentage) / 100
 
   

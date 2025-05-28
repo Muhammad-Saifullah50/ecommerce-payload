@@ -1,9 +1,17 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
+import FeatureTable from './FeatureTable'
+import { Description } from '@radix-ui/react-toast'
+import ProductDescription from './ProductDescription'
 
-const ProductDescriptionTabs = ({ description }: { description: SerializedEditorState }) => {
-
+const ProductDescriptionTabs = ({
+  description,
+  features,
+}: {
+  description: SerializedEditorState
+  features: any
+}) => {
   return (
     <Tabs defaultValue="description" className="relative mr-auto w-full">
       <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0">
@@ -20,8 +28,9 @@ const ProductDescriptionTabs = ({ description }: { description: SerializedEditor
           Reviews
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="description">
-          <RichText data={description} />
+      <TabsContent value="description" className='flex flex-col gap-8'>
+        <FeatureTable features={features} />
+        <ProductDescription  data={description}/>
       </TabsContent>
       <TabsContent value="reviews">Change your password here.</TabsContent>
     </Tabs>

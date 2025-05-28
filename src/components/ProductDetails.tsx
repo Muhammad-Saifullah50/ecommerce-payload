@@ -13,9 +13,11 @@ const ProductDetails = ({ product }: { product: Product }) => {
 
   const [count, setCount] = useState(currentItem?.quantity || 1)
 
+  const discountedPrice = product.price - (product.price * product.discount_percentage) / 100
+
   useEffect(() => {
     if (currentItem?.quantity) setCount(currentItem.quantity)
-  }, [currentItem]);
+  }, [currentItem])
 
   const inStock = product.inStock
 
@@ -39,15 +41,24 @@ const ProductDetails = ({ product }: { product: Product }) => {
       <h1 className="font-semibold text-2xl">{product.title}</h1>
 
       <div className="flex flex-col gap-4">
+
         <div className="flex justify-between w-full ">
           <p className="text-gray-primary text-base">Price:</p>
-          <p className="flex w-1/2 text-left justify-start text-gray-600">PKR {product.price}</p>
+          <div className='w-1/2 flex gap-4 items-center'>
+            <p className="text-gray-primary">PKR {discountedPrice}</p>
+            <s className="text-gray-600 text-xs">PKR {product.price}</s>
+          </div>
         </div>
+
         <div className="flex justify-between w-full ">
           <p className="text-gray-primary text-base">Discount:</p>
-          <p className="flex w-1/2 text-left justify-start text-gray-600"> {product.discount_percentage} %</p>
+          <p className="flex w-1/2 text-left justify-start text-gray-600">
+            {' '}
+            {product.discount_percentage} %
+          </p>
         </div>
-          <hr />
+        <hr />
+
         <div className="flex justify-between w-full">
           <p className="text-gray-primary text-base">Category:</p>
           <p className="flex w-1/2 text-left justify-start text-gray-600">
