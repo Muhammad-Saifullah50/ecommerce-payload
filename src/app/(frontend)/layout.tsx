@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Navbar from '@/components/Navbar'
-import LowerNavbar from '@/components/LowerNavbar'
 import Footer from '@/components/Footer'
 import LowerFooter from '@/components/LowerFooter'
 import './globals.css'
@@ -31,7 +30,6 @@ export default function RootLayout({
         <section className="bg-white">
           <div className="max-w-7xl mx-auto px-6">
             <Navbar />
-            <LowerNavbar />
           </div>
         </section>
         <main className="max-w-7xl mx-auto px-6 ">
