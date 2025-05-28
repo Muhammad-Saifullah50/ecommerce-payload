@@ -2,7 +2,7 @@ import CategoryGrid from "@/components/CategoryGrid";
 import Hero from "@/components/Hero";
 import LatestItemsGrid from "@/components/LatestItemsGrid";
 
-export default function Home() {
+ const Home = () => {
   return (
     <section className="flex flex-col py-4 gap-4">
       <Hero />
@@ -12,3 +12,5 @@ export default function Home() {
     </section>
   );
 }
+
+export default Home
