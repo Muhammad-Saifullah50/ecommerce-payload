@@ -53,7 +53,7 @@ const BannerCarousel = ({ banners }: BannerCarouselProps) => {
                   height={280}
                   alt={banner.title}
                   className="h-full w-full rounded-md object-cover"
-                  blurDataURL={`/_next/image?url=${banner?.image}&w=16&q=1`}
+                  blurDataURL={`/_next/image?url=${(banner?.image as Media)?.url}&w=16&q=1`}
                   placeholder="blur"
                 />
 

@@ -25,7 +25,7 @@ const CategoryGrid = async () => {
                 height={250}
                 alt={(category.image as Media).alt! || 'image'}
                 className="w-full h-full object-cover"
-                blurDataURL={`/_next/image?url=${category?.image}&w=16&q=1`}
+                blurDataURL={`/_next/image?url=${(category.image as Media).url!}&w=16&q=1`}
                 placeholder="blur"
               />
 
