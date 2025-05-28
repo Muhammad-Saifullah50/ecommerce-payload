@@ -1,5 +1,4 @@
 import FilterSidebar from '@/components/FilterSidebar'
-import { ChevronRight } from 'lucide-react'
 import { Product } from 'payload-types'
 import { getProductsByParams } from '@/actions/product.actions'
 import { PaginatedDocs } from 'payload'
@@ -15,20 +14,21 @@ export const experimental_ppr = true
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 
 const ShopPage = ({ searchParams }: { searchParams: SearchParams }) => {
-  
   const productsPromise: PaginatedDocs<Product> | undefined = getProductsByParams(searchParams)
   return (
     <main className="flex flex-col gap-4 h-full">
-      <Suspense fallback={<RouteSkeleton />}>
-        <Route searchParams={searchParams} />
-      </Suspense>
+      <div className="flex gap-2 text-gray-primary text-base pt-4">
+        <Suspense fallback={<RouteSkeleton />}>
+          <Route searchParams={searchParams} />
+        </Suspense>
+      </div>
       <section className="flex gap-8">
         <Suspense fallback={<FilterItemSkeleton />}>
-        <FilterSidebar paramsPromise={searchParams} />
+          <FilterSidebar paramsPromise={searchParams} />
         </Suspense>
 
         <section>
-          <section>
+          <section className='pt-4'>
             <Suspense fallback={<ProductsSkeleton />}>
               <ProductGrid productsPromise={productsPromise} />
             </Suspense>

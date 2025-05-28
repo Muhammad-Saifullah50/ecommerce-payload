@@ -25,8 +25,8 @@ const CategoryGrid = async () => {
                 height={250}
                 alt={(category.image as Media).alt! || 'image'}
                 className="w-full h-full object-cover"
-                blurDataURL={`/_next/image?url=${(category.image as Media).url!}&w=16&q=1`}
-                placeholder="blur"
+                 placeholder={(category?.image as Media)?.blurhash ? 'blur' : 'empty'}
+                  blurDataURL={(category?.image as Media)?.blurhash || undefined}
               />
 
               <div className="absolute top-0 p-8 flex flex-col gap-6">
@@ -58,8 +58,8 @@ const CategoryGrid = async () => {
                       width={220}
                       height={120}
                       alt={subcategoryImage.alt || 'image'}
-                      blurDataURL={`/_next/image?url=${subcategoryImage.url}&w=16&q=1`}
-                      placeholder="blur"
+                       placeholder={subcategoryImage?.blurhash ? 'blur' : 'empty'}
+                  blurDataURL={subcategoryImage?.blurhash || undefined}
                     />
                   </div>
                 </div>

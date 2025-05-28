@@ -16,8 +16,8 @@ const ProductCard = ({ data }: ProductCardProps) => {
                     height={200}
                     alt={data.title}
                     className=" object-cover h-[200px] w-[200px]" 
-          placeholder="blur"
-               blurDataURL={`/_next/image?url=${(data?.images[0] as Media).url!}&w=16&q=1`}
+            placeholder={(data?.images[0] as Media)?.blurhash ? 'blur' : 'empty'}
+                  blurDataURL={(data?.images[0] as Media)?.blurhash || undefined}
                 />
 
                 <div className="p-4">

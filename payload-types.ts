@@ -130,6 +130,7 @@ export interface UserAuthOperations {
 export interface Media {
   id: string;
   alt?: string | null;
+  blurhash?: string | null;
   _key?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -347,6 +348,7 @@ export interface PayloadMigration {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  blurhash?: T;
   _key?: T;
   updatedAt?: T;
   createdAt?: T;
