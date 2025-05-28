@@ -1,6 +1,7 @@
 'use server'
 import { getPayload, Where } from 'payload'
 import config from '@/payload.config'
+import { cache } from 'react'
 
 export const getAllProductSlugs = async () => {
   try {
@@ -62,7 +63,7 @@ export const searchProducts = async (query: string) => {
   }
 }
 
-export const getProductsByParams = async (paramsPromise: {
+export const getProductsByParams = cache(async (paramsPromise: {
   [key: string]: string | string[] | undefined
 }) => {
   // try {
@@ -133,10 +134,10 @@ export const getProductsByParams = async (paramsPromise: {
   // } catch (error) {
   //   console.error('Error getting products by params', error)
   // }
-}
+})
 
 // have to add paginartion
-export const getProductFeaturesAndBrands = async (params: {
+export const getProductFeaturesAndBrands = cache(async (params: {
   [key: string]: string | string[] | undefined
 }) => {
   try {
@@ -159,9 +160,9 @@ export const getProductFeaturesAndBrands = async (params: {
   } catch (error) {
     console.error('Error getting product features', error)
   }
-}
+})
 
-export const getCategoriesAndSubCategoriesByParameters = async (parameters: {
+export const getCategoriesAndSubCategoriesByParameters = cache(async (parameters: {
   [key: string]: string | string[] | undefined
 }) => {
   const payload = await getPayload({ config })
@@ -210,4 +211,4 @@ export const getCategoriesAndSubCategoriesByParameters = async (parameters: {
   })
 
   return { categories, subcategories }
-}
+})
