@@ -17,3 +17,30 @@ export const PaymentFormSchema = z.object({
     required_error: "You need to select a payment method.",
   }),
 })
+
+export const createAccountSchema = z.object({
+  firstName: z.string().min(2, {
+      message: "First name must be at least 3 characters.",
+  }),
+  lastName: z.string().min(2, {
+      message: "Last name must be at least 3 characters.",
+  }),
+  email: z.string().email("Invalid email address."),
+  password: z.string().min(2, {
+      message: "Password must be at least 8 characters.",
+  }),
+  confirmPassword: z.string().min(8, {
+      message: "Password must be at least 8 characters.",
+  }),
+
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Password and confirm password do not match.",
+  path: ["confirmPassword"],
+})
+export const LoginSchema = z.object({
+  email: z.string().email("Invalid email address."),
+  password: z.string().min(2, {
+      message: "Please enter a password.",
+  }),
+
+})

@@ -9,6 +9,8 @@ import { Orders } from './collections/Orders'
 import { Subcategories } from './collections/Subcategories'
 import { Products } from './collections/Products'
 import { uploadthingStorage } from '@payloadcms/storage-uploadthing'
+import { Users } from './collections/Users/config'
+import { Customers } from './collections/Customers/config'
 
 export default buildConfig({
   // If you'd like to use Rich Text, pass your editor here
@@ -26,7 +28,7 @@ export default buildConfig({
   ],
 
   // Define and configure your collections in this array
-  collections: [Media, Banners, Categories, Subcategories, Products, Orders],
+  collections: [Media, Banners, Categories, Subcategories, Products, Orders, Users, Customers],
 
   // Your Payload secret - should be a complex and secure string, unguessable
   secret: process.env.PAYLOAD_SECRET || '',
