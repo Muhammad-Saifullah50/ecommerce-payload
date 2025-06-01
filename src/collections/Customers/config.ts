@@ -1,3 +1,4 @@
+import { getServerSideUrl } from "@/lib/getServerSideUrl";
 import { CollectionConfig } from "payload";
 
 export const Customers: CollectionConfig = {
@@ -7,12 +8,35 @@ export const Customers: CollectionConfig = {
         verify: {
             generateEmailSubject: (args) => {
                 return `
-                    Hey ${args.user.firstName ? args.user.firstName : args.user.email}, verify your email address
+                    Hey ${args.user.firstName ? args.user.firstName : args.user.email}, change your password
                 `
             },
             generateEmailHTML: (args) => {
               return   `<div>
-              <h1></h1>
+              <h1>
+                Hey ${args.user.firstName ? args.user.firstName : args.user.email},
+              </h1> <br/>
+              <p>
+              You (or someone) has requested a password change for your account. If this wasn't you, please ignore this email. Otherwise, click the link below to change your password.
+               ${getServerSideUrl()}/password-reset?token=${args.token}
+              </p>
+              </div>`
+            },
+        },
+        forgotPassword: {
+            generateEmailSubject: (args) => {
+                return `
+                    Hey ${args?.user.firstName ? args?.user.firstName : args?.user.email}, verify your email address
+                `
+            },
+            generateEmailHTML: (args) => {
+              return   `<div>
+              <h1>
+                Hey ${args?.user.firstName ? args?.user.firstName : args?.user.email},
+              </h1> <br/>
+              <p>
+              Verify your email address by going to ${getServerSideUrl()}/verify?token=${args?.token}
+              </p>
               </div>`
             },
         },

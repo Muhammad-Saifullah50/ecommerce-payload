@@ -13,8 +13,9 @@ import { createAccountSchema } from "@/validations"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { z } from "zod"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { createAccount } from "@/actions/auth.actions"
+import Link from "next/link"
 
 const CreateAccountForm = ({
     className,
@@ -199,10 +200,10 @@ const CreateAccountForm = ({
                                         <span className="sr-only">Login with Google</span>
                                     </Button>
                                 <div className="text-center text-sm">
-                                    Don&apos;t have an account?{" "}
-                                    <a href="#" className="underline underline-offset-4">
-                                        Sign up
-                                    </a>
+                                    ALready have an account?{" "}
+                                    <Link href="/login" className="underline underline-offset-4">
+                                        Login
+                                    </Link>
                                 </div>
                             </div>
                         </form>

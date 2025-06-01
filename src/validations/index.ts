@@ -44,3 +44,7 @@ export const LoginSchema = z.object({
   }),
 
 })
+
+export const forgotPasswordSchema = z.object({
+  email: z.string().email("Invalid email address."),
+})

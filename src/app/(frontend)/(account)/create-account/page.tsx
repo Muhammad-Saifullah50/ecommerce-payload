@@ -1,4 +1,4 @@
-import CreateAccountForm from '@/components/CreateAccountForm'
+import CreateAccountForm from '@/components/forms/CreateAccountForm'
 import React from 'react'
 
 const CreateAccountPage = () => {

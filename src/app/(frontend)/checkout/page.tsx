@@ -1,5 +1,5 @@
 
-import CheckoutForm from '@/components/CheckoutForm'
+import CheckoutForm from '@/components/forms/CheckoutForm'
 import { Suspense } from 'react'
 
 const CheckoutPage = () => {

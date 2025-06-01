@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { Order } from '../../payload-types'
+import { Order } from '../../../payload-types'
 
 import { toast } from '@/hooks/use-toast'
 import { Button } from '@/components/ui/button'
@@ -18,12 +18,12 @@ import {
 import { Input } from '@/components/ui/input'
 
 import { checkoutFormSchema } from '@/validations'
-import { Textarea } from './ui/textarea'
-import CheckoutCard from './CheckoutCard'
+import { Textarea } from '../ui/textarea'
+import CheckoutCard from '../CheckoutCard'
 import { useCart } from '@/context/CartContext'
 import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import PaymentMethods from './PaymentMethods'
+import PaymentMethods from '../PaymentMethods'
 
 export const CheckoutForm = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -167,19 +167,19 @@ export const CheckoutForm = () => {
           <CheckoutCard />
 
           <div className="flex bg-white rounded-lg border p-4">
-          <FormField
-            control={form.control}
-            name="notes"
-            render={() => (
-              <FormItem>
-                <FormLabel>Payment Method</FormLabel>
-                <FormControl>
+            <FormField
+              control={form.control}
+              name="notes"
+              render={() => (
+                <FormItem>
+                  <FormLabel>Payment Method</FormLabel>
+                  <FormControl>
                     <PaymentMethods form={form} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
         </div>
       </form>
