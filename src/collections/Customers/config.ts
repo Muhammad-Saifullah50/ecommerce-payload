@@ -4,7 +4,18 @@ export const Customers: CollectionConfig = {
     slug: 'customers',
     auth: {
         tokenExpiration: 12 * 60 * 60,
-        verify: true,
+        verify: {
+            generateEmailSubject: (args) => {
+                return `
+                    Hey ${args.user.firstName ? args.user.firstName : args.user.email}, verify your email address
+                `
+            },
+            generateEmailHTML: (args) => {
+              return   `<div>
+              <h1></h1>
+              </div>`
+            },
+        },
         cookies: {
             secure: true,
             sameSite: 'None',

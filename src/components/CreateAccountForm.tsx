@@ -47,18 +47,18 @@ const CreateAccountForm = ({
                 lastName: values.lastName,
             });
 
-            if (!result?.error) {
-                router.push('/');
+            if (result?.success)
+             {
+                router.push(`/login?message=${encodeURIComponent('Check your email to verify')}`);
                 // continue from 14:49
                 toast({
                     description: 'Signed in successfully'
                 });
             }
             else {
-                console.log(result)
 
                 toast({
-                    description: result.error,
+                    description: result.error || 'An error occurred',
                     variant: 'destructive'
                 });
             }
