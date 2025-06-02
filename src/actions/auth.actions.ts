@@ -130,3 +130,15 @@ export const resetPassword = async ({ token, password }: ResetPasswordParams): P
         return { success: false, error: 'Error resetting password' };
     }
 };
+
+export const logoutUser = async () => {
+    try {
+        const cookieStore = await cookies();
+        cookieStore.delete('token')
+
+        return { success: true }
+    } catch (error) {
+        console.log('logout error', error)
+        return { success: false, error: 'Error logging out' }
+    }
+}
