@@ -11,10 +11,10 @@ const Navbar = () => {
         </Link>
         <SearchBox />
         <div className="flex items-center justify-center gap-4">
-          <div className="flex flex-col gap-1 items-center">
+          <Link href={'/profile'} className="flex flex-col gap-1 items-center">
             <Image src={'/profile.svg'} width={20} height={20} alt="profile" />
             <p className="text-xs text-gray-primary">Profile</p>
-          </div>
+          </Link>
           <div className="flex flex-col gap-1 items-center">
             <Image src={'/message.svg'} width={20} height={20} alt="profile" />
             <p className="text-xs text-gray-primary">Messages</p>

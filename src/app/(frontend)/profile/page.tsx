@@ -1,12 +1,15 @@
-import React from 'react'
+import { getCurrentUser } from "@/actions/user.actions"
+import ProfileForm from "@/components/forms/ProfileForm"
+import { redirect } from "next/navigation"
 
-const ProfilePage = () => {
+const ProfilePage = async () => {
+
+  const user = await getCurrentUser()
+
+  if (!user) redirect('/login')
   return (
-    <div>ProfilePage</div>
+    <ProfileForm user={user}/>
   )
 }
 
 export default ProfilePage
-
-// have to ciontuinue from 1:13:44
-// updarte actions

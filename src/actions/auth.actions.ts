@@ -85,18 +85,18 @@ export const loginAccount = async ({ email, password }: LoginParams): Promise<Re
         if (result.token) {
             const cookieStore = await cookies();
             cookieStore.set('token', result.token, {
-             httpOnly: true,
+                httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
                 path: '/',
             })
 
 
-            return {success: true}
-        } else {
-            return { success: false, error: 'Invalid email and password' }
-        }
+            return { success: true }
+        } 
     } catch (error) {
         console.log('login error', error)
+        return { success: false, error: 'Invalid email and password' }
+
     }
 }
 

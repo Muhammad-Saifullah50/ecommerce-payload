@@ -45,12 +45,14 @@ const loginForm = ({ callbackUrl }: { callbackUrl?: string }) => {
         router.push(callbackUrl || '/');
         // have to push to the callback url
         toast({
+          title: 'Success',
           description: 'Logged in successfully'
         });
       }
       else {
 
         toast({
+          title: 'Error',
           description: result.error || 'An error occurred',
           variant: 'destructive'
         });
